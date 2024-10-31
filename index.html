@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>30-Second Period Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        #timer-container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #period-number, #timer {
+            font-size: 2em;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div id="timer-container">
+    <div id="period-number">Period Number: </div>
+    <div id="timer">00:00</div>
+</div>
+
+<script>
+    // JavaScript implementation of the 30-second period timer
+    setInterval(() => {
+        const now = new Date();
+        const seconds = now.getUTCSeconds();
+        const minutes = now.getUTCMinutes();
+        const hours = now.getUTCHours();
+
+        const remainingSeconds = 30 - (seconds % 30);
+        const totalMinutes = (hours * 60) + minutes;
+
+        // Update period number for 30-second interval
+        const periodNumber = `${now.getUTCFullYear()}${(now.getUTCMonth() + 1).toString().padStart(2, '0')}${now.getUTCDate().toString().padStart(2, '0')}30${(1 + totalMinutes * 2 + (seconds >= 30 ? 1 : 0)).toString()}`;
+        document.getElementById("period-number").innerText = `Period Number: ${periodNumber}`;
+
+        // Update timer in format "  x x  :  x x"
+        const formattedTime = `  00  :  ${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        document.getElementById("timer").innerText = formattedTime.replace(/(?<=\d)(?=\d)/g, " ");
+    }, 1000);
+</script>
+
+</body>
+</html>
